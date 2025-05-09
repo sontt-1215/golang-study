@@ -5,18 +5,14 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"time"
 	"runtime"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func printGoVersion() {
-	fmt.Println("Go version:", runtime.Version())
-}
-
-func printValue[T any](value T) {
-	fmt.Printf("Value: %v\n", value)
+type Greeter interface {
+	Greet() string
 }
 
 type Person struct {
@@ -24,17 +20,29 @@ type Person struct {
 	Age  int
 }
 
-func (p Person) greet() string {
+func (p Person) Greet() string {
 	return fmt.Sprintf("Hello, my name is %s and I am %d years old.", p.Name, p.Age)
 }
 
+func printValue[T any](value T) {
+	fmt.Printf("Value: %v\n", value)
+}
+
+func printGoVersion() {
+	fmt.Println("Go version:", runtime.Version())
+}
+
 func checkAge(age int) string {
-    if age < 18 {
-        return "Underage"
-    } else if age >= 18 && age <= 65 {
-        return "Adult"
-    }
-    return "Senior"
+	if age < 18 {
+		return "Underage"
+	} else if age >= 18 && age <= 65 {
+		return "Adult"
+	}
+	return "Senior"
+}
+
+func sayGreeting(g Greeter) string {
+	return g.Greet()
 }
 
 func main() {
@@ -56,21 +64,21 @@ func main() {
 	}
 	defer db.Close()
 
-	fmt.Println("Mysql connection established!")
+	fmt.Println("MySQL connection established!")
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Server is running!\n")
 
 		printGoVersion()
-		printValue(42)
+		printValue(31)
 		printValue("Hello!")
-	
+
 		p := Person{Name: "Son", Age: 31}
-		fmt.Fprintf(w, p.greet() + "\n")
-		fmt.Fprintf(w, checkAge(p.Age) + "\n")
+		fmt.Fprintf(w, sayGreeting(p)+"\n")
+		fmt.Fprintf(w, checkAge(p.Age)+"\n")
 	})
 
-	fmt.Println("HTTP server is running on port 8081...")
+	fmt.Println("HTTP server is running on port 8080...")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatalf("Error starting server: %v", err)
 	}
