@@ -1,0 +1,24 @@
+{
+  "schools": [
+    { "id": 1, "name": "Sun Asterisk" }
+  ],
+  "classes": [
+    { "id": 1, "name": "Lớp Golang", "school_id": 1, "homeroom_teacher_id": 1 },
+    { "id": 2, "name": "Lớp NodeJS", "school_id": 1, "homeroom_teacher_id": 2 }
+  ],
+  "teachers": [
+    { "id": 1, "name": "Thầy Đạo", "address": "Đà Nẵng" },
+    { "id": 2, "name": "Cô Vân", "address": "Đà Nẵng" }
+  ],
+  "students": [
+    { "id": 1, "name": "Sơn", "address": "Hà Nội" },
+    { "id": 2, "name": "Quý", "address": "Hà Nội" },
+    { "id": 3, "name": "Gương", "address": "Hà Nội" }
+  ],
+  "student_classes": [
+    { "student_id": 1, "class_id": 1 },
+    { "student_id": 2, "class_id": 1 },
+    { "student_id": 3, "class_id": 2 },
+    { "student_id": 1, "class_id": 2 }
+  ]
+}
